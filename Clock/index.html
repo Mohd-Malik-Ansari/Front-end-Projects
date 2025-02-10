@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        html{
+            font-size: 62.5%;
+        }
+        body{
+            width: 100vw;
+            height: 100vh;
+            background-color: #1b252a;
+            display:flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .clockArea{
+            box-shadow: 5px 5px 10px 15px black;
+            width: 80rem;
+            height: 30rem;
+            background-color: white;
+            border-radius:7.5rem;
+            display:flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            & p{
+                font-size: 12rem;
+                font-family:Arial, Helvetica, sans-serif;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clockArea">
+        <p class="clock"></p>
+    </div>
+    <script>
+        const tellTime=()=>{
+            let time=document.querySelector(".clock");
+            time.innerText=(new Date().toLocaleTimeString());
+        }
+        let stopClock=setInterval(tellTime,1000);
+        setTimeout(()=>clearInterval(stopClock),10000);
+    </script>
+</body>
+</html>
