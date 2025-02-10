@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>Weather app</title>
+
+</head>
+
+<body>
+    <div class="video">
+    <video autoplay muted loop src="clear2.mp4" type="video/mp4" id="bg-video"></video></div>
+    <section class="container">
+        <!-- weather header -->
+        <div class="weather_header">
+            <form class="weather_search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" class="city_name" placeholder="search your city...">
+            </form>
+        </div>
+        <!-- Main body -->
+        <div class="weather_body">
+            <h1 class="weather_city">Deoband, India</h1>
+            <p class="weather_date_time">Thursday, January 30, 2025 at 12:32 PM</p>
+            <div class="weather_feelslike">
+                <p class="feelslike">Clear</p>
+            </div>
+            <div class="weather_icon"></div>
+            <div class="weather_temp">
+                <p>294.55&deg</p>
+            </div>
+            <div class="weather_minmax">
+                <p class="min">Min: 211&deg</p>
+                <p class="max">Max: 287&deg</p>
+            </div>
+        </div>
+        <!-- weather footer -->
+        <!-- first card -->
+        <section class="weather_infoCard">
+            <div class="weather_card feelslike_card">
+                <div class="feelslike_icon">
+                    <i class="fa-solid fa-temperature-three-quarters"></i>
+                </div>
+                <div>
+                    <p class="info_heading">Feels Like</p>
+                    <p class="info_subheading feelslike_data">292.92&deg</p>
+                </div>
+            </div>
+            <!-- second card -->
+            <div class="weather_card humidity_card">
+                <div class="humidity_icon">
+                    <i class="fa-solid fa-droplet"></i>
+                </div>
+                <div>
+                    <p class="info_heading">Humidity</p>
+                    <p class="info_subheading humidity">31%</p>
+                </div>
+            </div>
+            <!-- third card -->
+            <div class="weather_card wind_card">
+                <div class="wind_icon">
+                    <i class="fa-solid fa-wind"></i>
+                </div>
+                <div>
+                    <p class="info_heading">Wind</p>
+                    <p class="info_subheading wind">4.55 m/s</p>
+                </div>
+            </div>
+            <!-- fourth card -->
+            <div class="weather_card pressure_card">
+                <div class="pressure_icon">
+                    <i class="fa-solid fa-gauge-high"></i>
+                </div>
+                <div>
+                    <p class="info_heading">Pressure</p>
+                    <p class="info_subheading pressure">1017 hPa</p>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script src="script.js"></script>
+</body>
+
+</html>

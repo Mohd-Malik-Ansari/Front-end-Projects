@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Watch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 62.5%;
+        }
+
+        :root {
+            --bg-color: #3b4156;
+            --main-area-color: #21232e;
+            --second-text-color: #c23f3f;
+            --btn-bg-color: white;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 25rem;
+            height: 40rem;
+            background-color: var(--main-area-color);
+            border-radius: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0rem 0.5rem 1rem black;
+        }
+
+        .seconds {
+            font-size: 9rem;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--second-text-color);
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 10rem;
+            height: 4rem;
+            background-color: var(--btn-bg-color);
+            color: black;
+            border-radius: 3rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s linear;
+
+            &:hover {
+                background-color: rgb(255, 184, 53);
+            }
+        }
+
+        .btn-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .getTime-area {
+            overflow: auto;
+            color: var(--btn-bg-color);
+            font-size: 1.5rem;
+            letter-spacing: 0.1rem;
+            word-spacing: 0.2rem;
+            padding-right: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .getTime-area::-webkit-scrollbar {
+            width: 0.4rem;
+        }
+
+        .getTime-area::-webkit-scrollbar-thumb {
+            border-radius: 2rem;
+            background-color: orange;
+        }
+
+        .getTime-area::-webkit-scrollbar-track {
+            background-color: var(--btn-bg-color);
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container">
+        <p class="seconds">
+            0
+        </p>
+        <div class="btn-container">
+            <button class="btn start">Start</button>
+            <button class="btn reset">Reset</button>
+            <button class="btn stop">Stop</button>
+            <button class="btn getTime">Get Time</button>
+            <button class="btn clearTime">Clear Time</button>
+        </div>
+        <div class="getTime-area">
+        </div>
+    </section>
+    <script>
+
+        let second = document.querySelector(".seconds");
+        let getTimearea = document.querySelector(".getTime-area");
+        let seccount = localStorage.getItem("stopwatchsecond") || 0;
+        second.innerText = seccount;
+        let interval;
+        let isRunning = false;
+        let textArr = JSON.parse(localStorage.getItem("text")) || [];
+        let newElem;
+        
+        const startTime = () => {
+            if (isRunning) { return };
+            const runningSec = () => {
+                seccount++;
+                second.innerText = seccount;
+                localStorage.setItem("stopwatchsecond", seccount);
+            };
+            isRunning = true;
+            interval = setInterval(runningSec, 1000);
+        };
+
+        const stopTime = () => {
+            isRunning = false;
+            clearInterval(interval);
+        };
+
+        const resetTime = () => {
+            stopTime();
+            seccount = 0;
+            second.innerText = seccount;
+            localStorage.removeItem("stopwatchsecond");
+            isRunning = false;
+        };
+
+        const getTime = () => {
+            newElem = document.createElement('p');
+            let text = `Get Time at ${seccount}s.`;
+            newElem.innerText = text;
+            textArr.push(text);
+            localStorage.setItem("text", JSON.stringify(textArr));
+            getTimearea.append(newElem);
+        };
+
+        const clearTime = () => {
+            getTimearea.innerHTML = "";
+            localStorage.removeItem("text");
+        };
+
+        textArr.forEach((curElem) => {
+            newElem = document.createElement('p');
+            newElem.innerText = curElem;
+            getTimearea.append(newElem);
+        });
+
+        document.querySelector(".start").addEventListener('click', startTime);
+        document.querySelector(".stop").addEventListener('click', stopTime);
+        document.querySelector(".reset").addEventListener('click', resetTime);
+        document.querySelector(".getTime").addEventListener('click', getTime);
+        document.querySelector(".clearTime").addEventListener('click', clearTime);
+
+    </script>
+</body>
+
+</html>
+<!-- This is a functional Stop Watch web application created with HTML, CSS, and JavaScript. It features start, stop, reset, and time logging functionalities. The app uses localStorage to persist the stopwatch's time across page reloads. Users can also record specific times, view them in a list, and clear the recorded times. The design is clean, responsive, and user-friendly with smooth interactions for an enhanced experience. -->

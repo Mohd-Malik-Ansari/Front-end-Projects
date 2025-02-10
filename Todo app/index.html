@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            place-content: center;
+            background-color: #F5F5F5;
+        }
+
+        .hero-section {
+            width: 25vw;
+            height: 50vh;
+            box-shadow: 2px 2px 5px 5px rgb(218, 218, 218);
+            background-color: #F9F9F9;
+            color: #333333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        input[type=text] {
+            padding: 5px;
+            font-size: 14px;
+            border-radius: 5px;
+
+            &::placeholder {
+                font-size: 14px;
+            }
+
+            margin-top:20px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 5px;
+            font-size: 14px;
+            margin-left: 20px;
+            background-color: #48bf48;
+            border: none;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .todo-list-elem {
+            width: 19vw;
+            height: 30vh;
+            /* padding: 10px; */
+            /* border: 2px solid black;  */
+            overflow: auto;
+        }
+
+        .todo-list-elem::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .todo-list-elem::-webkit-scrollbar-thumb {
+            background-color: #787878;
+            border-radius: 5px;
+        }
+
+        .todo-list-elem:hover::-webkit-scrollbar-thumb {
+            background-color: #fa9b03;
+        }
+
+        .todo-list-elem::-webkit-scrollbar-track {
+            background-color: #f4f4f4;
+            border-radius: 4px;
+        }
+
+        .elem {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 3px;
+            align-items: center;
+        }
+
+        .deletebtn {
+            display: inline-block;
+            padding: 5px;
+            font-size: 14px;
+            margin-left: 20px;
+            background-color: #ef3f3f;
+            border: none;
+            color: white;
+            border-radius: 5px;
+        }
+
+        li {
+            list-style-type: circle;
+            list-style-position: inside;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero-section">
+        <h1>Todo List</h1>
+        <form>
+            <div>
+                <input type="text" id="inputValue" placeholder="Enter task..." />
+                <button class="btn">Add Todo</button>
+            </div>
+            <section class="todo-list-elem"></section>
+        </form>
+    </div>
+    <script>
+        let mainTodoElem = document.querySelector('.todo-list-elem');
+        let inputValue = document.getElementById('inputValue');
+
+        const getTodoListFromLocal = () => {
+            return JSON.parse(localStorage.getItem('todo'));
+        };
+
+        // add todo element dynamic
+        const addTodoDynamicElem = (curElem) => {
+            let elem = document.createElement('div');
+            elem.classList.add('elem');
+            elem.innerHTML = `<li>${curElem}</li><button class="deletebtn">Delete</button>`;
+            mainTodoElem.appendChild(elem);
+        };
+
+        //array which have data of todos
+        let arr = getTodoListFromLocal() || [];
+
+        //function that on add task button
+        const addTodoList = (e) => {
+            e.preventDefault();
+            let text = inputValue.value.trim();
+            inputValue.value = "";
+            let lowerCaseArr = arr.map(element => element.toLowerCase());
+            if (text !== "" && !arr.includes(text) && !lowerCaseArr.includes(text)) {
+                arr.push(text);
+                let arrr = [...new Set(arr)];
+                localStorage.setItem('todo', JSON.stringify(arrr));
+                addTodoDynamicElem(text);
+            }
+            else {
+                alert("Task Already Present or Empty Task");
+            }
+        };
+
+        // function which show data when refresh
+        const showTodoList = () => {
+            arr.forEach((curElem) => {
+                addTodoDynamicElem(curElem);
+            });
+        };
+
+        // refresh todo list every time 
+        showTodoList();
+
+        //trigger button
+        document.querySelector('.btn').addEventListener('click', (e) => {
+            addTodoList(e);
+        });
+
+        //remove element function
+        const removeTodoElem = (e) => {
+            const todoToRemove = e.target;
+            let todoListContent = todoToRemove.previousElementSibling.textContent;
+            let parentelem = todoToRemove.parentElement;
+            arr = arr.filter((curTodo) => {
+                return curTodo !== todoListContent;
+            })
+            localStorage.setItem('todo', JSON.stringify(arr));
+            parentelem.remove();
+        };
+
+        // event deligation for removing a element
+        mainTodoElem.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (e.target.classList.contains("deletebtn")) {
+                removeTodoElem(e);
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+
+<!-- This is a simple, interactive Todo List web application built using HTML, CSS, and JavaScript. The app allows users to add, view, and delete tasks dynamically. It stores the tasks persistently using localStorage, so even after page refreshes, the tasks remain saved. The design is clean and responsive, and tasks are stored in an array to avoid duplicates. Features include task validation, task removal, and custom styling for an enhanced user experience. -->
